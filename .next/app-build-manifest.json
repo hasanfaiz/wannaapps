@@ -4,6 +4,56 @@
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/route.js"
+    ],
+    "/contact-us/route": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/contact-us/route.js"
+    ],
+    "/works/route": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/works/route.js"
+    ],
+    "/services/route": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/services/route.js"
+    ],
+    "/about-us/route": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/about-us/route.js"
+    ],
+    "/seo-services/route": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/seo-services/route.js"
+    ],
+    "/google-business-seo-chennai/route": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/google-business-seo-chennai/route.js"
+    ],
+    "/google-ads/route": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/google-ads/route.js"
+    ],
+    "/social-media-marketing-services/route": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/social-media-marketing-services/route.js"
+    ],
+    "/web-development-services/route": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/web-development-services/route.js"
+    ],
+    "/ai-consulting-services/route": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/ai-consulting-services/route.js"
     ]
   }
 }

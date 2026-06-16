@@ -1,3 +1,10 @@
 {
-  "/route": "app/route.js"
+  "/services/route": "app/services/route.js",
+  "/seo-services/route": "app/seo-services/route.js",
+  "/about-us/route": "app/about-us/route.js",
+  "/google-ads/route": "app/google-ads/route.js",
+  "/ai-consulting-services/route": "app/ai-consulting-services/route.js",
+  "/google-business-seo-chennai/route": "app/google-business-seo-chennai/route.js",
+  "/web-development-services/route": "app/web-development-services/route.js",
+  "/social-media-marketing-services/route": "app/social-media-marketing-services/route.js"
 }
