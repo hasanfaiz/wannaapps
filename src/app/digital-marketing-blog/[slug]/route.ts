@@ -1,16 +1,15 @@
-import { getBlogPost, getSiteUrl } from '../../../lib/sanityRest';
+import { getWorkItem, getSiteUrl } from '../../../lib/sanityRest';
 import { escapeHtml, layoutHtml, sanitizeTrustedHtml } from '../../../lib/blogHtml';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
-// 1. Updated Context type strictly to expect a Promise parameter
-type Context = { 
-  params: Promise<{ slug: string }> 
-};
-
-export async function GET(_request: Request, context: Context) {
-  // 2. Await the params Promise directly to obtain the slug
+// Explicitly define the strictly typed Next.js 15 route parameter structure
+export async function GET(
+  _request: Request, 
+  context: { params: Promise<{ slug: string }> }
+) {
+  // Extract slug cleanly by awaiting the native parameter promise
   const { slug } = await context.params;
   const work = await getWorkItem(slug);
   const siteUrl = getSiteUrl();
