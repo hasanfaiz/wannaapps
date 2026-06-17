@@ -1,4 +1,4 @@
-import { getWorkItem, getSiteUrl } from '../../../lib/sanityRest';
+import { getBlogPost, getSiteUrl } from '../../../lib/sanityRest';
 import { escapeHtml, layoutHtml, sanitizeTrustedHtml } from '../../../lib/blogHtml';
 
 export const runtime = 'nodejs';
