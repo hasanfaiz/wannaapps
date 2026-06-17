@@ -36,7 +36,7 @@ function escapeHtml(value: string) {
     .replaceAll('<', '&lt;')
     .replaceAll('>', '&gt;')
     .replaceAll('"', '&quot;')
-    .replaceAll("'", '&#039;')
+    .replaceAll("'", '&#39;') // Fixed: Changed from invalid '''
     .replaceAll('\n', '<br>');
 }
 
@@ -141,7 +141,8 @@ export async function POST(request: NextRequest) {
     ? `https://sandbox.api.mailtrap.io/api/send/${sandboxInboxId}`
     : 'https://send.api.mailtrap.io/api/send';
 
-  const authHeaders = sandboxInboxId
+  // Fixed: Added Record<string, string> type here to resolve fetch overload conflict
+  const authHeaders: Record<string, string> = sandboxInboxId
     ? { 'Api-Token': token }
     : { Authorization: `Bearer ${token}` };
 
