@@ -4,7 +4,10 @@ import { articleSchema, escapeHtml, layoutHtml, portableTextToHtml, sanitizeTrus
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
-type Context = { params: { slug: string } | Promise<{ slug: string }> };
+// 1. Fixed the context interface to strictly expect a Promise
+type Context = { 
+  params: Promise<{ slug: string }> 
+};
 
 function formatDate(date?: string) {
   if (!date) return '';
@@ -12,7 +15,8 @@ function formatDate(date?: string) {
 }
 
 export async function GET(_request: Request, context: Context) {
-  const { slug } = await Promise.resolve(context.params);
+  // 2. Safely await the strict dynamic params Promise
+  const { slug } = await context.params;
   const post = await getBlogPost(slug);
   const siteUrl = getSiteUrl();
 
