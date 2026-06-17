@@ -8,11 +8,16 @@
     "deploy": "sanity deploy",
     "import": "sanity dataset import seed.ndjson --dataset production --replace",
     "wp:generate": "node scripts/generate-wp-posts-ndjson.mjs",
-    "wp:import:fresh": "npm run wp:generate && sanity datasets import wp-posts.ndjson --dataset production --replace",
-    "wp:import": "npm run wp:generate && sanity datasets import wp-posts.ndjson --dataset production"
+    "wp:import:fresh": "npm run wp:generate && sanity dataset import wp-posts.ndjson --dataset production --replace",
+    "wp:import": "npm run wp:generate && sanity dataset import wp-posts.ndjson --dataset production",
+    "wp:generate:resources": "node scripts/generate-wp-resources-ndjson.mjs",
+    "wp:import:resources": "npm run wp:generate:resources && sanity dataset import wp-resources.ndjson --dataset production",
+    "wp:generate:all": "npm run wp:generate && npm run wp:generate:resources && node scripts/merge-all-ndjson.mjs",
+    "wp:import:all:fresh": "npm run wp:generate:all && sanity dataset import wp-all.ndjson --dataset production --replace"
   },
   "dependencies": {
     "@sanity/vision": "3.99.0",
+    "cheerio": "1.0.0",
     "sanity": "3.99.0",
     "styled-components": "6.1.19"
   },

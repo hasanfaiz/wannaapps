@@ -1,5 +1,25 @@
 {
   "pages": {
+    "/works/route": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/works/route.js"
+    ],
+    "/services/route": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/services/route.js"
+    ],
+    "/works/[slug]/route": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/works/[slug]/route.js"
+    ],
+    "/google-business-seo-chennai/route": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/google-business-seo-chennai/route.js"
+    ],
     "/digital-marketing-blog/route": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
@@ -10,15 +30,10 @@
       "static/chunks/main-app.js",
       "static/chunks/app/digital-marketing-blog/[slug]/route.js"
     ],
-    "/works/route": [
+    "/contact-us/route": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/works/route.js"
-    ],
-    "/blog-sitemap.xml/route": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/blog-sitemap.xml/route.js"
+      "static/chunks/app/contact-us/route.js"
     ]
   }
 }

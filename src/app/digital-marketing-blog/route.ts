@@ -1,16 +1,29 @@
-import { getBlogPosts, getSiteUrl, isSanityConfigured } from '../../lib/sanityRest';
-import { blogListSchema, escapeHtml, layoutHtml } from '../../lib/blogHtml';
+import { getBlogPostsPage, getSiteUrl, isSanityConfigured } from '../../lib/sanityRest';
+import { blogListSchema, escapeHtml, layoutHtml, paginationHtml } from '../../lib/blogHtml';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
+
+const PAGE_SIZE = 9;
 
 function imageFor(post: any) {
   return post.featuredImage?.url || post.featuredImageUrl || '/assets/blog-seo-leads.webp';
 }
 
-export async function GET() {
+function pageFromUrl(request: Request) {
+  const url = new URL(request.url);
+  const page = Number(url.searchParams.get('page') || '1');
+  return Number.isFinite(page) && page > 0 ? Math.floor(page) : 1;
+}
+
+export async function GET(request: Request) {
   const siteUrl = getSiteUrl();
-  const posts = await getBlogPosts();
+  const page = pageFromUrl(request);
+  const { posts, total } = await getBlogPostsPage(page, PAGE_SIZE);
+  const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
+  const safePage = Math.min(page, totalPages);
+  const canonical = safePage <= 1 ? `${siteUrl}/digital-marketing-blog/` : `${siteUrl}/digital-marketing-blog/?page=${safePage}`;
+  const robots = safePage > totalPages ? 'noindex, follow' : 'index, follow';
 
   const content = `
   <main>
@@ -39,6 +52,7 @@ export async function GET() {
               </a>
             </article>`).join('')}
         </div>
+        ${paginationHtml('/digital-marketing-blog/', safePage, PAGE_SIZE, total)}
       </div>
     </section>
     <section class="container cta-panel reveal">
@@ -49,9 +63,10 @@ export async function GET() {
   </main>`;
 
   return new Response(layoutHtml({
-    title: 'Digital Marketing Blog | SEO and Growth Insights | WannaApps',
+    title: safePage <= 1 ? 'Digital Marketing Blog | SEO and Growth Insights | WannaApps' : `Digital Marketing Blog Page ${safePage} | WannaApps`,
     description: 'Read WannaApps insights on SEO, Google Ads, local search and digital marketing strategies that help businesses generate enquiries.',
-    canonical: `${siteUrl}/digital-marketing-blog/`,
+    canonical,
+    robots,
     body: content,
     schema: blogListSchema(posts)
   }), {
