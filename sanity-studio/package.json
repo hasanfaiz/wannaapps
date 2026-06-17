@@ -1,0 +1,22 @@
+{
+  "name": "wannaapps-sanity-studio",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "sanity dev --host 0.0.0.0",
+    "start": "sanity dev --host 0.0.0.0",
+    "deploy": "sanity deploy",
+    "import": "sanity dataset import seed.ndjson --dataset production --replace",
+    "wp:generate": "node scripts/generate-wp-posts-ndjson.mjs",
+    "wp:import:fresh": "npm run wp:generate && sanity datasets import wp-posts.ndjson --dataset production --replace",
+    "wp:import": "npm run wp:generate && sanity datasets import wp-posts.ndjson --dataset production"
+  },
+  "dependencies": {
+    "@sanity/vision": "3.99.0",
+    "sanity": "3.99.0",
+    "styled-components": "6.1.19"
+  },
+  "devDependencies": {
+    "typescript": "5.9.3"
+  }
+}

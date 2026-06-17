@@ -1,14 +1,24 @@
 {
   "pages": {
-    "/contact-us/route": [
+    "/digital-marketing-blog/route": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/contact-us/route.js"
+      "static/chunks/app/digital-marketing-blog/route.js"
+    ],
+    "/digital-marketing-blog/[slug]/route": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/digital-marketing-blog/[slug]/route.js"
     ],
     "/works/route": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/works/route.js"
+    ],
+    "/blog-sitemap.xml/route": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/blog-sitemap.xml/route.js"
     ]
   }
 }

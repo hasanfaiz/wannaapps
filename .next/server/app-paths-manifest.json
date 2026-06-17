@@ -1,4 +1,6 @@
 {
+  "/digital-marketing-blog/[slug]/route": "app/digital-marketing-blog/[slug]/route.js",
+  "/blog-sitemap.xml/route": "app/blog-sitemap.xml/route.js",
   "/works/route": "app/works/route.js",
-  "/contact-us/route": "app/contact-us/route.js"
+  "/digital-marketing-blog/route": "app/digital-marketing-blog/route.js"
 }
