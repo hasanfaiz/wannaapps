@@ -4,7 +4,10 @@ import { escapeHtml, layoutHtml, sanitizeTrustedHtml, workSchema } from '../../.
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
-type Context = { params: { slug: string } | Promise<{ slug: string }> };
+// 1. Updated Context type strictly to expect a Promise parameter
+type Context = { 
+  params: Promise<{ slug: string }> 
+};
 
 function formatDate(date?: string) {
   if (!date) return '';
@@ -20,7 +23,8 @@ function hasRealDetail(item: any) {
 }
 
 export async function GET(_request: Request, context: Context) {
-  const { slug } = await Promise.resolve(context.params);
+  // 2. Extracted slug cleanly by awaiting the native parameter promise directly
+  const { slug } = await context.params;
   const siteUrl = getSiteUrl();
   const item = await getWork(slug);
 

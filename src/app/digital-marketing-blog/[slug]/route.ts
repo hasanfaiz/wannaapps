@@ -1,52 +1,50 @@
-import { getWorkItem, getSiteUrl } from '../../../lib/sanityRest';
-import { escapeHtml, layoutHtml, sanitizeTrustedHtml } from '../../../lib/blogHtml';
+import { getBlogPost, getSiteUrl } from '../../../lib/sanityRest';
+import { articleSchema, escapeHtml, layoutHtml, portableTextToHtml, sanitizeTrustedHtml } from '../../../lib/blogHtml';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
-// Explicitly define the strictly typed Next.js 15 route parameter structure
 export async function GET(
   _request: Request, 
   context: { params: Promise<{ slug: string }> }
 ) {
-  // Extract slug cleanly by awaiting the native parameter promise
   const { slug } = await context.params;
-  const work = await getWorkItem(slug);
+  const post = await getBlogPost(slug);
   const siteUrl = getSiteUrl();
 
-  if (!work) {
+  if (!post) {
     return new Response(layoutHtml({
-      title: 'Project Not Found | WannaApps',
-      description: 'The requested WannaApps case study or project could not be found.',
-      canonical: `${siteUrl}/works/${slug}/`,
+      title: 'Blog Post Not Found | WannaApps',
+      description: 'The requested WannaApps blog post could not be found.',
+      canonical: `${siteUrl}/digital-marketing-blog/${slug}/`,
       robots: 'noindex, follow',
-      body: `<main><section class="hero"><div class="container"><h1>Project not found</h1><p class="lead">This case study may have been moved or unpublished.</p><a class="btn" href="/works/">View all works</a></div></section></main>`
+      body: `<main><section class="hero"><div class="container"><h1>Article not found</h1><p class="lead">This blog post may have been moved or unpublished.</p><a class="btn" href="/digital-marketing-blog/">View all articles</a></div></section></main>`
     }), { status: 404, headers: { 'content-type': 'text/html; charset=utf-8' }});
   }
 
-  const title = work.seoTitle || `${work.title} | Case Study | WannaApps`;
-  const description = work.metaDescription || work.excerpt || 'Explore this portfolio item from WannaApps.';
-  const canonical = work.canonicalUrl || `${siteUrl}/works/${work.slug}/`;
-  const robots = work.noindex ? 'noindex, follow' : 'index, follow';
-  const image = work.featuredImage?.url || work.featuredImageUrl;
-  const imageAlt = work.featuredImage?.alt || work.featuredImageAlt || work.title;
-  const projectContent = work.bodyHtml ? sanitizeTrustedHtml(work.bodyHtml) : '';
+  const title = post.seoTitle || post.title;
+  const description = post.metaDescription || post.excerpt || 'Read WannaApps digital marketing insights.';
+  const canonical = post.canonicalUrl || `${siteUrl}/digital-marketing-blog/${post.slug}/`;
+  const robots = post.noindex ? 'noindex, follow' : 'index, follow';
+  const image = post.featuredImage?.url || post.featuredImageUrl;
+  const imageAlt = post.featuredImage?.alt || post.featuredImageAlt || post.title;
+  const articleContent = post.bodyHtml ? sanitizeTrustedHtml(post.bodyHtml) : portableTextToHtml(post.body || []);
 
   const body = `
   <main>
-    <article class="container project-wrap">
-      <header class="project-hero reveal">
-        <div class="project-meta">${escapeHtml(work.clientName || 'Case Study')}</div>
-        <h1>${escapeHtml(work.title)}</h1>
-        <p class="lead">${escapeHtml(work.excerpt || '')}</p>
+    <article class="container article-wrap">
+      <header class="article-hero reveal">
+        <div class="article-meta">${escapeHtml(post.category || 'Digital Marketing')} ${post.publishedAt ? `• ${escapeHtml(new Intl.DateTimeFormat('en-IN', { year: 'numeric', month: 'long', day: 'numeric' }).format(new Date(post.publishedAt)))}` : ''}</div>
+        <h1>${escapeHtml(post.title)}</h1>
+        <p class="lead">${escapeHtml(post.excerpt || '')}</p>
       </header>
-      ${image ? `<div class="project-image reveal"><img src="${escapeHtml(image)}" alt="${escapeHtml(imageAlt)}"></div>` : ''}
-      <div class="project-content reveal">
-        ${projectContent}
+      ${image ? `<div class="article-image reveal"><img src="${escapeHtml(image)}" alt="${escapeHtml(imageAlt)}"></div>` : ''}
+      <div class="article-content reveal">
+        ${articleContent}
       </div>
       <section class="cta-panel reveal">
-        <h2>Want similar results for your business scaling goals?</h2>
-        <p>Talk to WannaApps about building performance-focused platforms and growth infrastructure maps.</p>
+        <h2>Want better visibility and enquiries from Google?</h2>
+        <p>Talk to WannaApps about SEO, Google Ads and local search strategies focused on real business growth.</p>
         <a class="btn" href="/contact-us/">Book Free Consultation</a>
       </section>
     </article>
@@ -57,7 +55,8 @@ export async function GET(
     description,
     canonical,
     robots,
-    body
+    body,
+    schema: articleSchema(post)
   }), {
     headers: {
       'content-type': 'text/html; charset=utf-8',
